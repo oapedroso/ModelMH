@@ -660,18 +660,18 @@ for T in temperature:
             file.write(f"c_H[beta] = {cHbeta1} \n")
             file.write(f"wt% H[alpha] = {wtalpha} \n" )
             file.write(f"wt% H[beta] = {wtbeta1} \n")
-            file.write(f"Pressure Plateau = {p_plat[T][0]:e} atm \n")
-            file.write(f"Entalpy Plateau = {H_plat[T][0]} kJ/mol H  \n")
-            file.write(f"Entropy Plateau = {S_plat[T][0]} kJ/mol H \n")
+            file.write(f"Plateau Pressure = {p_plat[T][0]:e} atm \n")
+            file.write(f"Plateau Enthalpy = {H_plat[T][0]} kJ/mol H  \n")
+            file.write(f"Plateau Entropy = {S_plat[T][0]} kJ/mol H \n")
         if H_delta>0:
             file.write("Plateau beta-delta \n")     
             file.write(f"c_H[beta] ={cHbeta2} \n")
             file.write(f"c_H[delta] = {cHdelta} \n" ) 
             file.write(f"wt% H[beta] = {wtbeta2} \n" )
             file.write(f"wt% H[delta] = {wtdelta} \n")
-            file.write(f"Pressure Plateau = {p_plat[T][1]:e} atm \n")
-            file.write(f"Entalpy Plateau = {H_plat[T][1]}  kJ/mol H \n")
-            file.write(f"Entropy Plateau = {S_plat[T][1]} kJ/mol H \n")      
+            file.write(f"Plateau Pressure = {p_plat[T][1]:e} atm \n")
+            file.write(f"Plateau Enthalpy = {H_plat[T][1]}  kJ/mol H \n")
+            file.write(f"Plateau Entropy = {S_plat[T][1]} kJ/mol H \n")      
     elif equilibrium_real == 'ad':  
         cHalpha = equilibrium_all[equilibrium_real][0][0]
         cHdelta = equilibrium_all[equilibrium_real][0][1]
@@ -682,9 +682,9 @@ for T in temperature:
         file.write(f"c_H[delta] = {cHdelta} \n")
         file.write(f"wt% H[alpha] = {wtalpha} \n" )
         file.write(f"wt% H[delta] = {wtdelta} \n")
-        file.write(f"Pressure Plateau = {p_plat[T][0]:e} atm \n")
-        file.write(f"Entalpy Plateau = {H_plat[T][0]} kJ/mol H  \n")
-        file.write(f"Entropy Plateau = {S_plat[T][0]} kJ/mol H \n")   
+        file.write(f"Plateau Pressure = {p_plat[T][0]:e} atm \n")
+        file.write(f"Plateau Enthalpy = {H_plat[T][0]} kJ/mol H  \n")
+        file.write(f"Plateau Entropy = {S_plat[T][0]} kJ/mol H \n")   
     elif H_delta < 0 and not equilibrium_all['ab'] and not equilibrium_all['ad']:
         file.write("Equilibrium not found")
     file.write("------------------------------------------------------- \n")
@@ -721,7 +721,7 @@ for T in temperature:
     
  
     
-    ########## Entalpy Variation ####################   
+    ########## Enthalpy Variation ####################   
     my_file = f'{alloy}_Hall_T{T - 273.15}C.png'
     # Create Figure (empty canvas)
     fig = plt.figure()
