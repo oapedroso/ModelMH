@@ -41,6 +41,12 @@ def Hconvert(p,mass,cH):
     p[np.where(p==cH)[0][0],0] = cH * 1.01 *100/ (mass+ cH*1.01)
     return
 
+#Remake the legends of PCT diagram with T only
+def search (lista, valor):
+    return [(lista.index(x), x.index(valor)) for x in lista if valor in x]
+
+
+
 ##########Definição de variaveis######################
 elements = []
 composition = []
@@ -654,18 +660,18 @@ for T in temperature:
             file.write(f"c_H[beta] = {cHbeta1} \n")
             file.write(f"wt% H[alpha] = {wtalpha} \n" )
             file.write(f"wt% H[beta] = {wtbeta1} \n")
-            file.write(f"Pressure Plateau = {p_plat[T][0]:e} atm \n")
-            file.write(f"Entalpy Plateau = {H_plat[T][0]} kJ/mol H  \n")
-            file.write(f"Entropy Plateau = {S_plat[T][0]} kJ/mol H \n")
+            file.write(f"Plateau Pressure = {p_plat[T][0]:e} atm \n")
+            file.write(f"Plateau Enthalpy = {H_plat[T][0]} kJ/mol H  \n")
+            file.write(f"Plateau Entropy = {S_plat[T][0]} kJ/mol H \n")
         if H_delta>0:
-            file.write("Plato beta-delta \n")     
+            file.write("Plateau beta-delta \n")     
             file.write(f"c_H[beta] ={cHbeta2} \n")
             file.write(f"c_H[delta] = {cHdelta} \n" ) 
             file.write(f"wt% H[beta] = {wtbeta2} \n" )
             file.write(f"wt% H[delta] = {wtdelta} \n")
-            file.write(f"Pressure Plateau = {p_plat[T][1]:e} atm \n")
-            file.write(f"Entalpy Plateau = {H_plat[T][1]}  kJ/mol H \n")
-            file.write(f"Entropy Plateau = {S_plat[T][1]} kJ/mol H \n")      
+            file.write(f"Plateau Pressure = {p_plat[T][1]:e} atm \n")
+            file.write(f"Plateau Enthalpy = {H_plat[T][1]}  kJ/mol H \n")
+            file.write(f"Plateau Entropy = {S_plat[T][1]} kJ/mol H \n")      
     elif equilibrium_real == 'ad':  
         cHalpha = equilibrium_all[equilibrium_real][0][0]
         cHdelta = equilibrium_all[equilibrium_real][0][1]
@@ -676,9 +682,9 @@ for T in temperature:
         file.write(f"c_H[delta] = {cHdelta} \n")
         file.write(f"wt% H[alpha] = {wtalpha} \n" )
         file.write(f"wt% H[delta] = {wtdelta} \n")
-        file.write(f"Pressure Plateau = {p_plat[T][0]:e} atm \n")
-        file.write(f"Entalpy Plateau = {H_plat[T][0]} kJ/mol H  \n")
-        file.write(f"Entropy Plateau = {S_plat[T][0]} kJ/mol H \n")   
+        file.write(f"Plateau Pressure = {p_plat[T][0]:e} atm \n")
+        file.write(f"Plateau Enthalpy = {H_plat[T][0]} kJ/mol H  \n")
+        file.write(f"Plateau Entropy = {S_plat[T][0]} kJ/mol H \n")   
     elif H_delta < 0 and not equilibrium_all['ab'] and not equilibrium_all['ad']:
         file.write("Equilibrium not found")
     file.write("------------------------------------------------------- \n")
@@ -715,7 +721,7 @@ for T in temperature:
     
  
     
-    ########## Entalpy Variation ####################   
+    ########## Enthalpy Variation ####################   
     my_file = f'{alloy}_Hall_T{T - 273.15}C.png'
     # Create Figure (empty canvas)
     fig = plt.figure()
@@ -851,7 +857,7 @@ for T in temperature:
         
                 # Plot on that set of axes
                 axes.plot(p_1[0:,0], p_1[0:,1], 'b', label = r'$\alpha$')
-                plt.plot([], [], ' ', label= f"Plato = {p_2[0,1]:e} atm")
+                plt.plot([], [], ' ', label= f"Plateau = {p_2[0,1]:e} atm")
                 plt.yscale("log")
                 axes.set_xlabel(r'$c_H$') # Notice the use of set_ to begin methods
                 axes.set_ylabel(r"$P$ [atm]")
@@ -875,7 +881,7 @@ for T in temperature:
                 axes.plot(p_1[0:,0], p_1[0:,1], 'b', label = r'$\alpha$')
                 axes.plot(p_2[0:,0], p_2[0:,1], 'g', label = r'$\alpha - \delta$')
                 axes.plot(p_3[0:,0], p_3[0:,1], 'r', label = r'$\delta$')
-                plt.plot([], [], ' ', label= f"Plato = {p_2[0,1]:e} atm")
+                plt.plot([], [], ' ', label= f"Plateau = {p_2[0,1]:e} atm")
                 plt.yscale("log")
                 axes.set_xlabel(r'$c_H$') # Notice the use of set_ to begin methods
                 axes.set_ylabel(r"$P$ [atm]")
@@ -900,9 +906,9 @@ for T in temperature:
                 if H_delta >0:
                     axes.plot(p_4[0:,0], p_4[0:,1], 'y', label = r'$\beta - \delta$')
                     axes.plot(p_5[0:,0], p_5[0:,1], 'tab:orange', label = r'$\delta$')
-                plt.plot([], [], ' ', label= f"Plato 1= {p_2[0,1]:e} atm")
+                plt.plot([], [], ' ', label= f"Plateau 1= {p_2[0,1]:e} atm")
                 if H_delta >0:
-                    plt.plot([], [], ' ', label= f"Plato 2= {p_4[0,1]:e} atm")
+                    plt.plot([], [], ' ', label= f"Plateau 2= {p_4[0,1]:e} atm")
                 plt.yscale("log")
                 axes.set_xlabel(r'$c_H$') # Notice the use of set_ to begin methods
                 axes.set_ylabel(r"$P$ [atm]")
@@ -923,7 +929,7 @@ for T in temperature:
         
                 # Plot on that set of axes
                 axes.plot(p_1_wt[0:,0], p_1_wt[0:,1], 'b', label = r'$\alpha$')
-                plt.plot([], [], ' ', label= f"Plato = {p_2[0,1]:e} atm")
+                plt.plot([], [], ' ', label= f"Plateau = {p_2[0,1]:e} atm")
                 plt.yscale("log")
                 axes.set_xlabel('wt% H') # Notice the use of set_ to begin methods
                 axes.set_ylabel(r"$P$ [atm]")
@@ -945,7 +951,7 @@ for T in temperature:
                 axes.plot(p_1_wt[0:,0], p_1_wt[0:,1], 'b', label = r'$\alpha$')
                 axes.plot(p_2_wt[0:,0], p_2_wt[0:,1], 'g', label = r'$\alpha - \delta$')
                 axes.plot(p_3_wt[0:,0], p_3_wt[0:,1], 'r', label = r'$\delta$')
-                plt.plot([], [], ' ', label= f"Plato = {p_2[0,1]:e} atm")
+                plt.plot([], [], ' ', label= f"Plateau = {p_2[0,1]:e} atm")
                 plt.yscale("log")
                 axes.set_xlabel('wt% H') # Notice the use of set_ to begin methods
                 axes.set_ylabel(r"$P$ [atm]")
@@ -971,9 +977,9 @@ for T in temperature:
                 if H_delta >0:
                     axes.plot(p_4_wt[0:,0], p_4_wt[0:,1], 'y', label = r'$\beta - \delta$')
                     axes.plot(p_5_wt[0:,0], p_5_wt[0:,1], 'tab:orange', label = r'$\delta$')
-                plt.plot([], [], ' ', label= f"Plato 1= {p_2[0,1]:e} atm")
+                plt.plot([], [], ' ', label= f"Plateau 1= {p_2[0,1]:e} atm")
                 if H_delta >0:
-                    plt.plot([], [], ' ', label= f"Plato 2= {p_4[0,1]:e} atm")
+                    plt.plot([], [], ' ', label= f"Plateau 2= {p_4[0,1]:e} atm")
                 plt.yscale("log")
                 axes.set_xlabel('wt% H') # Notice the use of set_ to begin methods
                 axes.set_ylabel(r"$P$ [atm]")
@@ -1085,6 +1091,8 @@ if len(temperature)>1:
     if all( i == 'ad' for i in verify_equilibrium):
         
         p_equilibrium_ad = np.array(p_equilibrium_ad)
+        
+        #---------- Van't Hoff H and S in the legend
         my_file = f'{alloy}_VantHoff.png'
         # Create Figure (empty canvas)
         fig = plt.figure()
@@ -1102,11 +1110,33 @@ if len(temperature)>1:
         axes.set_title(f"Van't Hoff {alloy}")
         axes.legend(loc = 0,prop={'size': 5})
         fig.savefig(os.path.join(my_path, my_file), dpi=200, bbox_inches='tight')
+      
+        #----------- Van't Hoff equilibrium only
+        my_file = f'{alloy}_VantHoff_equilibrium.png'
+        # Create Figure (empty canvas)
+        fig = plt.figure()
+    
+        # Add set of axes to figure
+        axes = fig.add_axes([0.1, 0.1, 0.8, 0.8]) # left, bottom, width, height (range 0 to 1)
+    
+        # Plot on that set of axes
+        axes.plot(p_equilibrium_ad[0:,0], p_equilibrium_ad[0:,1], 'k', label = r'$\alpha - \delta$')
+        axes.set_xlabel('1/T [$K^{-1}$]') # Notice the use of set_ to begin methods
+        axes.set_ylabel(r"$ln(P_{eq}(atm))$")
+        axes.set_title(f"Van't Hoff {alloy}")
+        axes.legend(loc = 0,prop={'size': 8})
+        fig.savefig(os.path.join(my_path, my_file), dpi=200, bbox_inches='tight')
+      
+        
+      
         
     elif all( i == 'ab' for i in verify_equilibrium) and H_delta>0:
             
         p_equilibrium_ab = np.array(p_equilibrium_ab)
         p_equilibrium_bd = np.array(p_equilibrium_bd)
+       
+        
+        #---------- Van't Hoff H and S in the legend
         my_file = f'{alloy}_VantHoff.png'
         # Create Figure (empty canvas)
         fig = plt.figure()
@@ -1128,6 +1158,28 @@ if len(temperature)>1:
         axes.set_title(f"Van't Hoff {alloy}")
         axes.legend(loc = 0,prop={'size': 4})
         fig.savefig(os.path.join(my_path, my_file), dpi=200, bbox_inches='tight')
+   
+    
+   
+        #----------- Van't Hoff equilibrium only
+        my_file = f'{alloy}_VantHoff_equilibrium.png'
+        # Create Figure (empty canvas)
+        fig = plt.figure()
+    
+        # Add set of axes to figure
+        axes = fig.add_axes([0.1, 0.1, 0.8, 0.8]) # left, bottom, width, height (range 0 to 1)
+    
+        # Plot on that set of axes
+        axes.plot(p_equilibrium_ab[0:,0], p_equilibrium_ab[0:,1], 'k', label = r'$\alpha - \beta$')
+        axes.plot(p_equilibrium_bd[0:,0], p_equilibrium_bd[0:,1], 'r', label = r'$\beta - \delta$')
+        axes.set_xlabel('1/T [$K^{-1}$]') # Notice the use of set_ to begin methods
+        axes.set_ylabel(r"$ln(P_{eq}(atm))$")
+        axes.set_title(f"Van't Hoff {alloy}")
+        axes.legend(loc = 0,prop={'size': 8})
+        fig.savefig(os.path.join(my_path, my_file), dpi=200, bbox_inches='tight')
+   
+   
+    
     elif H_delta>0:
         
         if not equilibrium_all['ab'] and not equilibrium_all['bd']:
@@ -1136,6 +1188,9 @@ if len(temperature)>1:
         p_equilibrium_ab = np.array(p_equilibrium_ab)
         p_equilibrium_bd = np.array(p_equilibrium_bd)
         p_equilibrium = p_equilibrium_ab + p_equilibrium_bd
+       
+        
+        #---------- Van't Hoff H and S in the legend
         my_file = f'{alloy}_VantHoff.png'
         # Create Figure (empty canvas)
         fig = plt.figure()
@@ -1171,8 +1226,38 @@ if len(temperature)>1:
         axes.legend(loc = 0,prop={'size': 4})
         fig.savefig(os.path.join(my_path, my_file), dpi=200, bbox_inches='tight')
         
+        
+        my_file = f'{alloy}_VantHoff_equilibrium.png'
+        # Create Figure (empty canvas)
+        fig = plt.figure()
+        
+        # Add set of axes to figure
+        axes = fig.add_axes([0.1, 0.1, 0.8, 0.8]) # left, bottom, width, height (range 0 to 1)
+        
+        # Plot on that set of axes
+        
+        if not equilibrium_all['ab'] and not equilibrium_all['bd']:
+            axes.plot(p_notequilibrium[0:,0], p_notequilibrium[0:,1], 'b', label = r'$\alpha - \delta$')
+        
+        
+        if any(equilibrium_all['ab']) or any(equilibrium_all['ad']):
+            axes.plot(p_equilibrium_ad[0:,0], p_equilibrium_ad[0:,1], 'b', label = r'$\alpha - \delta$')  
+            axes.plot(p_equilibrium_ab[0:,0], p_equilibrium_ab[0:,1], 'k', label = r'$\alpha - \beta$')
+            axes.plot(p_equilibrium_bd[0:,0], p_equilibrium[0:,1], 'r', label = r'$\beta - \delta$')         
+            axes.set_xlabel('1/T [$K^{-1}$]') # Notice the use of set_ to begin methods
+        axes.set_ylabel(r"$ln(P_{eq}(atm))$")
+        axes.set_title(f"Van't Hoff {alloy}")
+        axes.legend(loc = 0,prop={'size': 8})
+        fig.savefig(os.path.join(my_path, my_file), dpi=200, bbox_inches='tight')
+        
+        
+        
+        
     ######################PCT Diagram#######################
-    if Hydrogen_presentation == '1' or Hydrogen_presentation == '3':    
+    if Hydrogen_presentation == '1' or Hydrogen_presentation == '3': 
+        
+        
+        #--------- Plateu pressures in the legend-----------
         my_file = f'{alloy}_PCT_cH.png'
         # Create Figure (empty canvas)
         fig = plt.figure()
@@ -1185,17 +1270,46 @@ if len(temperature)>1:
             axes.plot(p_total[T][0:,0], p_total[T][0:,1], label = f"{T-273.15} \u00B0C")
             if any(equilibrium_all['ab']) or any(equilibrium_all['ad']):
                 if p_plat[T][1] == None:
-                    plt.plot([], [], ' ', label= f"Plato = {p_plat[T][0]:e} atm")
+                    plt.plot([], [], ' ', label= f"Plateau = {p_plat[T][0]:e} atm")
                 else:
-                    plt.plot([], [], ' ', label= f"Plato 1 = {p_plat[T][0]:e} atm")  
-                    plt.plot([], [], ' ', label= f"Plato 2 = {p_plat[T][1]:e} atm")
+                    plt.plot([], [], ' ', label= f"Plateau 1 = {p_plat[T][0]:e} atm")  
+                    plt.plot([], [], ' ', label= f"Plateau 2 = {p_plat[T][1]:e} atm")
         plt.yscale("log")
         axes.set_xlabel('$c_H$') # Notice the use of set_ to begin methods
         axes.set_ylabel(r"$P$ [atm]")
         axes.set_title(f'PCT {alloy}')
         axes.legend(loc = 0,prop={'size': 5})
         fig.savefig(os.path.join(my_path, my_file), dpi=200, bbox_inches='tight')
+   
+    
+       #-------- Only temperatures in the legend
+        my_file = f'{alloy}_PCT_cH_Tonly.png'
+        # Create Figure (empty canvas)
+        fig = plt.figure()
+        
+        # Add set of axes to figure
+        axes = fig.add_axes([0.1, 0.1, 0.8, 0.8]) # left, bottom, width, height (range 0 to 1)
+        
+        # Plot on that set of axes
+        for T in temperature:
+            axes.plot(p_total[T][0:,0], p_total[T][0:,1], label = f"{T-273.15} \u00B0C")
+        current_handles, current_labels = plt.gca().get_legend_handles_labels()
+        plt.yscale("log")
+        axes.set_xlabel('$c_H$') # Notice the use of set_ to begin methods
+        axes.set_ylabel(r"$P$ [atm]")
+        axes.set_title(f'PCT {alloy}')
+        a,b = search(current_labels,'25')[0]
+        current_labels.insert(0,current_labels[a])
+        del(current_labels[a+1])
+        current_handles.insert(0,current_handles[a])
+        del(current_handles[a+1])
+        axes.legend(current_handles,current_labels,loc = 0,prop={'size': 7}, ncol=2)
+        fig.savefig(os.path.join(my_path, my_file), dpi=200, bbox_inches='tight')
+   
+
     if Hydrogen_presentation == '2' or Hydrogen_presentation == '3': 
+
+        #------- Plateau pressure in the legend
         my_file = f'{alloy}_PCT_mass.png'
         # Create Figure (empty canvas)
         fig = plt.figure()
@@ -1208,16 +1322,43 @@ if len(temperature)>1:
             axes.plot(p_total_wt[T][0:,0], p_total_wt[T][0:,1], label = f"{T-273.15} \u00B0C")
             if any(equilibrium_all['ab']) or any(equilibrium_all['ad']):    
                 if p_plat[T][1] == None:
-                    plt.plot([], [], ' ', label= f"Plato = {p_plat[T][0]:e} atm")
+                    plt.plot([], [], ' ', label= f"Plateau = {p_plat[T][0]:e} atm")
                 else:
-                    plt.plot([], [], ' ', label= f"Plato 1 = {p_plat[T][0]:e} atm")  
-                    plt.plot([], [], ' ', label= f"Plato 2 = {p_plat[T][1]:e} atm")
+                    plt.plot([], [], ' ', label= f"Plateau 1 = {p_plat[T][0]:e} atm")  
+                    plt.plot([], [], ' ', label= f"Plateau 2 = {p_plat[T][1]:e} atm")
         plt.yscale("log")
         axes.set_xlabel('wt% H') # Notice the use of set_ to begin methods
         axes.set_ylabel(r"$P$ [atm]")
         axes.set_title(f'PCT {alloy}')
         axes.legend(loc = 0,prop={'size': 5})
         fig.savefig(os.path.join(my_path, my_file), dpi=200, bbox_inches='tight')
+
+
+       #-------- Only temperatures in the legend
+        my_file = f'{alloy}_PCT_mass_Tonly.png'
+        # Create Figure (empty canvas)
+        fig = plt.figure()
+        
+        # Add set of axes to figure
+        axes = fig.add_axes([0.1, 0.1, 0.8, 0.8]) # left, bottom, width, height (range 0 to 1)
+        
+        # Plot on that set of axes
+        for T in temperature:
+            axes.plot(p_total_wt[T][0:,0], p_total_wt[T][0:,1], label = f"{T-273.15} \u00B0C")
+        current_handles, current_labels = plt.gca().get_legend_handles_labels()
+        plt.yscale("log")
+        axes.set_xlabel('wt% H') # Notice the use of set_ to begin methods
+        axes.set_ylabel(r"$P$ [atm]")
+        axes.set_title(f'PCT {alloy}')
+        a,b = search(current_labels,'25')[0]
+        current_labels.insert(0,current_labels[a])
+        del(current_labels[a+1])
+        current_handles.insert(0,current_handles[a])
+        del(current_handles[a+1])
+        axes.legend(current_handles,current_labels,loc = 0,prop={'size': 7}, ncol=2)
+        fig.savefig(os.path.join(my_path, my_file), dpi=200, bbox_inches='tight')
+
+
 end = time.time()
 tempo = end - begin
 print(tempo)
